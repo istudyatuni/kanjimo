@@ -1,12 +1,15 @@
-#let tr = (
-    meaning: "Meaning",
-)
-
 #let data = json("data/kanji.json")
 #let data2 = json("data/kanji2.json")
 #let kanjis = data.kanji
 #let kanjis-categorised = data2.kanji
-#let categories = array.range(5, 0, step: -1).map(i => "jlptn" + str(i))
+#let categories-dict = {
+    data2.categories
+        .keys()
+        .fold((:), (acc, c) => {
+            acc.insert(c, c)
+            acc
+        })
+}
 #let categories-names = data2.categories
 
 #let show-order(k) = {
@@ -30,7 +33,7 @@
 
     let map = (:)
     if category != none {
-        if categories.find(c => c == category) == none {
+        if categories-dict.at(category, default: none) == none {
             panic("invalid category", category)
         }
         map.insert(category, kanjis-categorised.categories.at(category))
@@ -38,7 +41,7 @@
         map = kanjis-categorised.categories
     }
     for (name, c) in map {
-        [== #categories-names.at(name)]
+        [= #categories-names.at(name)]
         if meanings {
             table-with-meanings(c)
         } else {
@@ -49,40 +52,63 @@
     }
 }
 
-#let practice(kanji: "") = {
+#let practice-kanji(kanji) = {
+    set box(width: 5em, height: 5em)
+
+    let empty = box(inset: (y: 5pt))
+    let order = box[#show-order(kanji.character)]
+    let draw = box(inset: (y: 5pt))[
+        #set text(fill: gray)
+        #show-draw(kanji.character)
+    ]
+    let opt(name, value) = if value.len() > 0 { [#strong[#name]: #value] }
+    box(width: auto, height: auto)[
+        #strong("Meaning"): #kanji.meaning \
+        #opt("Kun", kanji.kunyomi) \
+        #opt("On", kanji.onyomi)
+        #grid(
+            columns: 2,
+            table(columns: 1, order, empty),
+            table(columns: 6, draw, draw, ..array.range(10).map(_ => empty)),
+        )
+    ]
+}
+
+#let practice-empty() = {
+    practice-kanji((
+        character: " ",
+        onyomi: " ",
+        kunyomi: " ",
+        meaning: " "
+    ))
+}
+
+#let practice(kanji: "", category: none) = {
+    if category != none {
+        if categories-dict.at(category, default: none) == none {
+            panic("invalid category", category)
+        }
+        for k in kanjis-categorised.categories.at(category) {
+            practice-kanji(k)
+        }
+        return
+    }
+
     let kanjis-list = kanji.clusters()
     if kanjis-list.len() == 0 {
         return
     }
-    let kanjis-list = kanjis.fold((), (acc, k) => {
+    let kanjis-map = kanjis.fold((:), (acc, k) => {
         if kanjis-list.contains(k.character) {
-            acc.push(k)
+            acc.insert(k.character, k)
         }
         acc
     })
-    let one(body) = box(width: 5em, height: 5em, inset: (y: 5pt))[#body]
-    let two(body) = box(width: 5em, height: 5em)[#body]
     for k in kanjis-list {
-        let order = two[
-            #show-order(k.character)
-        ]
-        let draw = one[
-            #set text(fill: gray)
-            #show-draw(k.character)
-        ]
-        box[
-            #strong(tr.meaning): #k.meaning\
-            #if k.kunyomi != "" {
-                [#strong[Kun]: #k.kunyomi\ ]
-            }
-            #if k.onyomi != "" {
-                [#strong[On]: #k.onyomi]
-            }
-            #grid(
-                columns: 2,
-                table(columns: 1, order, one[]),
-                table(columns: 6, draw, draw, ..array.range(10).map(_ => one[])),
-            )
-        ]
+        if k == " " {
+            practice-empty()
+        } else {
+            practice-kanji(kanjis-map.at(k))
+        }
     }
 }

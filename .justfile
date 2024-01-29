@@ -7,3 +7,6 @@ install path="$HOME/.local/share/typst/packages/local" pkg="kanji-practice/0.1.0
 	cp {src,lib}.typ "{{ path }}/{{ pkg }}"
 	cp typst.toml "{{ path }}/{{ pkg }}"
 	cp data/kanji{,2}.json "{{ path }}/{{ pkg }}/data"
+
+install-fonts path="$HOME/.local/share/fonts":
+	cp fonts/* "{{ path }}"
