@@ -12,12 +12,12 @@
 }
 #let categories-names = data2.categories
 
-#let show-order(k) = {
-    text(font: "KanjiStrokeOrders", fallback: false, size: 5em)[#k]
+#let show-strokes(k) = {
+    text(font: "KanjiStrokeOrders", size: 5em)[#k]
 }
 
 #let show-draw(k) = {
-    text(font: "YOzFontN-StdN-R", fallback: false, size: 5em)[#k]
+    text(font: "YOzFontN-StdN-R", size: 5em)[#k]
 }
 
 #let table-with-meanings(kanji) = {
@@ -28,7 +28,7 @@
     )
 }
 
-#let jlpt-table(category: none, meanings: false) = {
+#let jlpt-table(category: none, meanings: false, strokes: false) = {
     set text(font: "mitimasu")
 
     let map = (:)
@@ -44,6 +44,8 @@
         [= #categories-names.at(name)]
         if meanings {
             table-with-meanings(c)
+        } else if strokes {
+            show-strokes(kanji.map(k => k.character).join(" "))
         } else {
             for kan in c {
                 kan.character
@@ -56,16 +58,21 @@
     set box(width: 5em, height: 5em)
 
     let empty = box(inset: (y: 5pt))
-    let order = box[#show-order(kanji.character)]
+    let order = box[#show-strokes(kanji.character)]
     let draw = box(inset: (y: 5pt))[
         #set text(fill: gray)
         #show-draw(kanji.character)
     ]
-    let opt(name, value) = if value.len() > 0 { [#strong[#name]: #value] }
+    let opt(name, value, breakable: false) = if value.len() > 0 {
+        [#strong[#name]: #value]
+        if breakable {
+            linebreak()
+        }
+    }
     box(width: auto, height: auto)[
         #strong("Meaning"): #kanji.meaning \
-        #opt("Kun", kanji.kunyomi) \
-        #opt("On", kanji.onyomi)
+        #opt("Kun", kanji.kunyomi.replace(" ", "、"), breakable: true)
+        #opt("On", kanji.onyomi.replace(" ", "、"))
         #grid(
             columns: 2,
             table(columns: 1, order, empty),
