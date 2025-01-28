@@ -1,16 +1,4 @@
-#let data = json("data/kanji.json")
-#let data2 = json("data/kanji2.json")
-#let kanjis = data.kanji
-#let kanjis-categorised = data2.kanji
-#let categories-dict = {
-    data2.categories
-        .keys()
-        .fold((:), (acc, c) => {
-            acc.insert(c, c)
-            acc
-        })
-}
-#let categories-names = data2.categories
+#let kanjis = cbor("data/kanjiapi_full.cbor")
 
 #let show-strokes(k) = {
     text(font: "KanjiStrokeOrders", size: 5em)[#k]
@@ -20,102 +8,70 @@
     text(font: "YOzFontN-StdN-R", size: 5em)[#k]
 }
 
-#let table-with-meanings(kanji) = {
-    table(
-        columns: 4,
-        stroke: 0.5pt + gray,
-        ..kanji.map(k => [#k.character\ #k.meaning])
-    )
-}
-
-#let jlpt-table(category: none, meanings: false, strokes: false) = {
-    set text(font: "mitimasu")
-
-    let map = (:)
-    if category != none {
-        if categories-dict.at(category, default: none) == none {
-            panic("invalid category", category)
-        }
-        map.insert(category, kanjis-categorised.categories.at(category))
-    } else {
-        map = kanjis-categorised.categories
-    }
-    for (name, c) in map {
-        [= #categories-names.at(name)]
-        if meanings {
-            table-with-meanings(c)
-        } else if strokes {
-            show-strokes(kanji.map(k => k.character).join(" "))
-        } else {
-            for kan in c {
-                kan.character
-            }
-        }
-    }
-}
-
-#let practice-kanji(kanji) = {
+#let practice-kanji(key, kanji) = {
     set box(width: 5em, height: 5em)
 
     let empty = box(inset: (y: 5pt))
-    let order = box[#show-strokes(kanji.character)]
+    let order = box[#show-strokes(key)]
     let draw = box(inset: (y: 5pt))[
         #set text(fill: gray)
-        #show-draw(kanji.character)
+        #show-draw(key)
     ]
-    let opt(name, value, breakable: false) = if value.len() > 0 {
+    let opt(name, value, breaked: false) = {
         [#strong[#name]: #value]
-        if breakable {
+        if breaked {
             linebreak()
         }
     }
     box(width: auto, height: auto)[
-        #strong("Meaning"): #kanji.meaning \
-        #opt("Kun", kanji.kunyomi.replace(" ", "、"), breakable: true)
-        #opt("On", kanji.onyomi.replace(" ", "、"))
-        #grid(
-            columns: 2,
-            table(columns: 1, order, empty),
-            table(columns: 6, draw, draw, ..array.range(10).map(_ => empty)),
+        #strong("Meaning"): #kanji.meanings.join(", ") \
+        #opt("Kun", kanji.kun.join("、"), breaked: true)
+        #opt("On", kanji.on.join("、"))
+        #table(
+            columns: 7,
+            stroke: (x, y) => if x == 0 {
+                (right: 1pt)
+            } else {
+                1pt
+            },
+            table.cell(rowspan: 2, order),
+            draw,
+            draw,
+            ..array.range(10).map(_ => empty),
         )
     ]
 }
 
 #let practice-empty() = {
-    practice-kanji((
-        character: " ",
-        onyomi: " ",
-        kunyomi: " ",
-        meaning: " "
+    practice-kanji("", (
+        on: ("",),
+        kun: ("",),
+        meanings: ("",)
     ))
 }
 
-#let practice(kanji: "", category: none) = {
-    if category != none {
-        if categories-dict.at(category, default: none) == none {
-            panic("invalid category", category)
-        }
-        for k in kanjis-categorised.categories.at(category) {
-            practice-kanji(k)
-        }
+#let practice(kanji) = {
+    if type(kanji) != str {
+        set text(fill: red)
+        [Warning: you should pass string]
         return
     }
-
     let kanjis-list = kanji.clusters()
     if kanjis-list.len() == 0 {
         return
     }
-    let kanjis-map = kanjis.fold((:), (acc, k) => {
-        if kanjis-list.contains(k.character) {
-            acc.insert(k.character, k)
-        }
-        acc
-    })
+    let missing = ()
     for k in kanjis-list {
         if k == " " {
             practice-empty()
+        } else if k in kanjis {
+            practice-kanji(k, kanjis.at(k))
         } else {
-            practice-kanji(kanjis-map.at(k))
+            missing.push(k)
         }
+    }
+    if missing.len() > 0 {
+        set text(fill: red)
+        [Warning: missing kanjis #missing.join()]
     }
 }

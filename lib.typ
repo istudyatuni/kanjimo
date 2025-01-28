@@ -1,1 +1,1 @@
-#import "src.typ": practice, jlpt-table, categories-dict as categories
+#import "src.typ": practice
