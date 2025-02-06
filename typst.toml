@@ -3,6 +3,7 @@ name = "kanji-practice"
 version = "0.1.0"
 description = "Print selected kanji for practicing"
 repository = "https://github.com/istudyatuni/kanji-practice"
+authors = ["Ilia <@istudyatuni>"]
 license = "MIT"
 keywords = ["kanji"]
 disciplines = ["education"]
