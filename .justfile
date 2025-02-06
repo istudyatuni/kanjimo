@@ -1,16 +1,14 @@
 [private]
 @default:
-	just --list
+    just --list
 
-install path="$HOME/.local/share/typst/packages/local" pkg="kanji-practice/0.1.0":
-	mkdir -p "{{ path }}/{{ pkg }}/data"
-	cp {src,lib}.typ "{{ path }}/{{ pkg }}"
-	cp typst.toml "{{ path }}/{{ pkg }}"
-	cp data/kanjiapi_full.cbor "{{ path }}/{{ pkg }}/data"
+install path="$HOME/.local/share/typst/packages/local" pkg="kanji-practice/0.1.0": bundle
+    rm -rf "{{ path }}/{{ pkg }}"
+    mv bundle "{{ path }}/{{ pkg }}"
 
 install-fonts path="$HOME/.local/share/fonts":
-	mkdir -p "{{ path }}"
-	cp fonts/* "{{ path }}"
+    mkdir -p "{{ path }}"
+    cp fonts/* "{{ path }}"
 
 bundle:
     rm -rf bundle
@@ -19,5 +17,5 @@ bundle:
     cp data/kanjiapi_full.cbor bundle/data
     cp lib.typ src.typ typst.toml bundle
 
-    # simple test
-    echo '#import "bundle/lib.typ": practice' | typst c - /dev/null -f pdf
+    @# simple test
+    echo '#import "bundle/lib.typ": practice; #practice("私")' | typst c - /dev/null -f pdf
