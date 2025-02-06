@@ -17,16 +17,19 @@
         #set text(fill: gray)
         #show-draw(key)
     ]
-    let opt(name, value, breaked: false) = {
-        [#strong[#name]: #value]
+    let opt-list(name, value, breaked: false) = {
+        if value.len() == 0 {
+            return
+        }
+        [#strong[#name]: #value.join("、")]
         if breaked {
             linebreak()
         }
     }
     box(width: auto, height: auto)[
         #strong("Meaning"): #kanji.meanings.join(", ") \
-        #opt("Kun", kanji.kun.join("、"), breaked: true)
-        #opt("On", kanji.on.join("、"))
+        #opt-list("Kun", kanji.kun, breaked: true)
+        #opt-list("On", kanji.on)
         #table(
             columns: 7,
             stroke: (x, y) => if x == 0 {
