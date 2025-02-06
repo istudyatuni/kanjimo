@@ -6,12 +6,32 @@
     meanings: "m",
 )
 
+#let fonts = state("__kanji_practice_fonts", (
+    "strokes": "KanjiStrokeOrders",
+    "draw": "YOzFontN-StdN-R",
+))
+
+#let set-font(strokes: none, draw: none) = {
+    if strokes != none {
+        fonts.update(f => {
+            f.strokes = strokes
+            f
+        })
+    }
+    if draw != none {
+        fonts.update(f => {
+            f.draw = draw
+            f
+        })
+    }
+}
+
 #let show-strokes(k) = {
-    text(font: "KanjiStrokeOrders", size: 5em)[#k]
+    context text(font: fonts.get().strokes, size: 5em)[#k]
 }
 
 #let show-draw(k) = {
-    text(font: "YOzFontN-StdN-R", size: 5em)[#k]
+    context text(font: fonts.get().draw, size: 5em)[#k]
 }
 
 #let practice-kanji(key, kanji) = {

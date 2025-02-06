@@ -5,11 +5,16 @@ This is a small typst package that print selected kanji for practicing. Look is 
 #### Usage
 
 ```typ
-#import "@local/kanji-practice:0.1.0": practice
+#import "@local/kanji-practice:0.1.0": practice, set-font
 
 #set page(margin: (x: 5em, y: 2em))
 // Change fonts for info text
 #set text(font: ("Shantell Sans", "Kiwi Maru"))
+
+// Optional, change font for kanji preview in table
+#set-font(draw: "Kiwi Maru")
+// Or, also change fonts for stroke order
+#set-font(draw: "Kiwi Maru", strokes: "KanjiStrokeOrders")
 
 // Select kanjis. Spaces will be replaced with blank charts
 #practice(kanji: "分日一国人年大")
@@ -21,7 +26,7 @@ Each selected kanji will look like:
 
 ## Extra requirements
 
-Fonts:
+Fonts (can be changed):
 
 - [KanjiStrokeOrders](https://sites.google.com/site/nihilistorguk/)
     - Some distributions, like [Fedora](https://fedoraproject.org/wiki/KanjiStrokeOrders_fonts), packages it
