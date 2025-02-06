@@ -1,5 +1,6 @@
 *.cbor
 *.zip
 data/*.json
+!data/extra.json
 *~
 pyrightconfig.json

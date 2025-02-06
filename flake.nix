@@ -19,6 +19,7 @@
             (python3.withPackages (pypkgs: with pypkgs; [cbor2]))
 
             just
+            ruff
           ];
         };
 
