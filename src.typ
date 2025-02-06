@@ -1,5 +1,11 @@
 #let kanjis = cbor("data/kanjiapi_full.cbor")
 
+#let keys = (
+    on: "o",
+    kun: "k",
+    meanings: "m",
+)
+
 #let show-strokes(k) = {
     text(font: "KanjiStrokeOrders", size: 5em)[#k]
 }
@@ -27,9 +33,9 @@
         }
     }
     box(width: auto, height: auto)[
-        #strong("Meaning"): #kanji.meanings.join(", ") \
-        #opt-list("Kun", kanji.kun, breaked: true)
-        #opt-list("On", kanji.on)
+        #strong("Meaning"): #kanji.at(keys.meanings, default: ()).join(", ") \
+        #opt-list("Kun", kanji.at(keys.kun, default: ()), breaked: true)
+        #opt-list("On", kanji.at(keys.on, default: ()))
         #table(
             columns: 7,
             stroke: (x, y) => if x == 0 {
@@ -47,9 +53,9 @@
 
 #let practice-empty() = {
     practice-kanji("", (
-        on: ("",),
-        kun: ("",),
-        meanings: ("",)
+        (keys.on): ("",),
+        (keys.kun): ("",),
+        (keys.meanings): ("",)
     ))
 }
 
