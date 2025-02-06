@@ -27,6 +27,8 @@ Fonts:
     - Some distributions, like [Fedora](https://fedoraproject.org/wiki/KanjiStrokeOrders_fonts), packages it
 - YOzFontN-StdN-R
 
+You can also download them from [fonts](https://github.com/istudyatuni/kanji-practice/tree/typst/fonts)
+
 ## Install package locally
 
 First, you should download [kanjiapi data](https://kanjiapi.dev). Click on "API data download", and place downloaded .zip file to `data` directory. 
