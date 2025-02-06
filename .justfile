@@ -15,7 +15,7 @@ bundle:
     mkdir -p bundle bundle/docs bundle/data
     cp docs/typst-screenshot.png bundle/docs
     cp data/kanjiapi_full.cbor bundle/data
-    cp lib.typ src.typ typst.toml bundle
+    cp lib.typ src.typ typst.toml LICENSE bundle
 
     @# simple test
     echo '#import "bundle/lib.typ": practice; #practice("私")' | typst c - /dev/null -f pdf

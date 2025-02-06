@@ -1,10 +1,12 @@
 [package]
 name = "kanji-practice"
 version = "0.1.0"
-entrypoint = "lib.typ"
-compiler = "0.12"
-
+description = "Print selected kanji for practicing"
 repository = "https://github.com/istudyatuni/kanji-practice"
+license = "MIT"
 keywords = ["kanji"]
 disciplines = ["education"]
+
+entrypoint = "lib.typ"
+compiler = "0.12"
 exclude = ["docs/*"]
