@@ -8,7 +8,7 @@
 
 #let fonts = state("__kanji_practice_fonts", (
     "strokes": "KanjiStrokeOrders",
-    "draw": "YOzFontN-StdN-R",
+    "draw": "Kiwi Maru",
 ))
 
 #let set-font(strokes: none, draw: none) = {

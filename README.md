@@ -30,7 +30,7 @@ Fonts (can be changed):
 
 - [KanjiStrokeOrders](https://sites.google.com/site/nihilistorguk/)
     - Some distributions, like [Fedora](https://fedoraproject.org/wiki/KanjiStrokeOrders_fonts), packages it
-- YOzFontN-StdN-R
+- [Kiwi Maru](https://fonts.google.com/specimen/Kiwi+Maru)
 
 You can also download them from [fonts](https://github.com/istudyatuni/kanji-practice/tree/typst/fonts)
 
