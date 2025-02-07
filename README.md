@@ -37,14 +37,14 @@ For converting you need Python [installed](https://www.python.org):
 
 ```py
 pip install cbor2
-python3 convert_full.py
+python3 convert.py
 ```
 
 Or, if you use Nix:
 
 ```sh
 nix develop '.#python'
-python3 convert_full.py
+python3 convert.py
 ```
 
 Then run:
