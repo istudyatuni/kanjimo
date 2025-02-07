@@ -3,8 +3,9 @@
     just --list
 
 install path="$HOME/.local/share/typst/packages/local" pkg="kanji-practice/0.1.0": test bundle
-    rm -rf "{{ path }}/{{ pkg }}"
-    mv bundle "{{ path }}/{{ pkg }}"
+    rm -rf "{{ join(path, pkg) }}"
+    mkdir -p "{{ parent_directory(join(path, pkg)) }}"
+    mv bundle "{{ join(path, pkg) }}"
 
 install-fonts path="$HOME/.local/share/fonts":
     mkdir -p "{{ path }}"
@@ -18,4 +19,6 @@ bundle:
     mkdir -p bundle bundle/docs bundle/data
     cp docs/typst-screenshot.png bundle/docs
     cp data/kanjiapi_full.cbor bundle/data
-    cp lib.typ src.typ typst.toml LICENSE bundle
+    cp lib.typ src.typ typst.toml LICENSE README.md bundle
+
+publish repo version: (install join(repo, "packages/preview") "kanji-practice/" + version)
