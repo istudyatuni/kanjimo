@@ -20,15 +20,18 @@
       system: let
         pkgs = import nixpkgs {inherit system;};
         tytanic = inputs.tytanic.packages.${system}.default;
-      in {
-        devShells.python = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [
-            (python3.withPackages (pypkgs: with pypkgs; [cbor2]))
+        pypkgs = with pkgs; [
+          (python3.withPackages (pypkgs: with pypkgs; [cbor2]))
 
-            just
-            ruff
-            tytanic
-          ];
+          just
+          ruff
+        ];
+      in {
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = pypkgs ++ [tytanic];
+        };
+        devShells.python = pkgs.mkShell {
+          nativeBuildInputs = pypkgs;
         };
 
         formatter = pkgs.alejandra;
