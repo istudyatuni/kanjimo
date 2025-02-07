@@ -9,5 +9,5 @@ keywords = ["kanji"]
 disciplines = ["education"]
 
 entrypoint = "lib.typ"
-compiler = "0.12"
+compiler = "0.12.0"
 exclude = ["docs/*"]
