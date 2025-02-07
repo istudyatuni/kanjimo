@@ -80,11 +80,8 @@
 }
 
 #let practice(kanji) = {
-    if type(kanji) != str {
-        set text(fill: red)
-        [Warning: you should pass string]
-        return
-    }
+    assert(type(kanji) == str, message: "you should pass string")
+
     let kanjis-list = kanji.clusters()
     if kanjis-list.len() == 0 {
         return
@@ -101,6 +98,6 @@
     }
     if missing.len() > 0 {
         set text(fill: red)
-        [Warning: missing kanjis #missing.join()]
+        [Warning: missing data for kanjis #missing.join()]
     }
 }
