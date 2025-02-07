@@ -32,7 +32,7 @@ Fonts (can be changed):
     - Some distributions, like [Fedora](https://fedoraproject.org/wiki/KanjiStrokeOrders_fonts), packages it
 - [Kiwi Maru](https://fonts.google.com/specimen/Kiwi+Maru)
 
-You can also download them from [fonts](https://github.com/istudyatuni/kanji-practice/tree/typst/fonts)
+You can also download first font from [fonts](https://github.com/istudyatuni/kanji-practice/tree/master/fonts)
 
 ## Install package locally
 
