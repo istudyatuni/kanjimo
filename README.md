@@ -1,6 +1,6 @@
 ## こんにちは！
 
-This is a small typst package that print selected kanji for practicing. Look is based on [@jensechu/kanji](https://github.com/jensechu/kanji).
+This is a small typst package that creates charts with selected kanji for practicing. Look is based on [@jensechu/kanji](https://github.com/jensechu/kanji).
 
 #### Usage
 
