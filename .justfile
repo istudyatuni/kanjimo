@@ -22,3 +22,9 @@ bundle:
     cp lib.typ src.typ typst.toml LICENSE README.md bundle
 
 publish repo version: (install join(repo, "packages/preview") "kanji-practice/" + version)
+
+convert-kanji:
+    python3 convert.py
+
+format:
+    ruff format
