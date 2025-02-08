@@ -2,10 +2,15 @@ from pathlib import Path
 
 import json
 import cbor2
+import zipfile
 
 EXTRA = 'data/extra.json'
-SOURCE = 'data/kanjiapi_full.json'
-TARGET = 'data/kanjiapi_full.cbor'
+DIR = 'data'
+BASE_FILE = 'kanjiapi_full'
+JSON_FILE = BASE_FILE + '.json'
+SOURCE = Path(DIR).joinpath(JSON_FILE)
+SOURCE_ZIP = Path(DIR).joinpath(f'{BASE_FILE}.zip')
+TARGET = Path(DIR).joinpath(f'{BASE_FILE}.cbor')
 
 type Kanji = dict[str, list[str]]
 type KanjiDict = dict[str, Kanji]
@@ -39,8 +44,14 @@ def map_kanji(kanji: Kanji) -> Kanji:
 
 def main():
     if not Path(SOURCE).exists():
-        print(f'{SOURCE} not exists')
-        return
+        print(f'{SOURCE} not exists, searching .zip file')
+        if not Path(SOURCE_ZIP).exists():
+            print(f'{SOURCE_ZIP} not exists')
+            return
+
+        print(f'extracting {SOURCE_ZIP}')
+        with zipfile.ZipFile(SOURCE_ZIP) as file:
+            file.extract(JSON_FILE, path=DIR)
 
     with open(SOURCE) as file:
         content: KanjiDict = json.load(file)['kanjis']
@@ -52,16 +63,21 @@ def main():
     with open(EXTRA) as file:
         content = json.load(file)
 
+    total = len(filtered)
+
     for kanji, value in content.items():
         if kanji in filtered:
             print(f'{EXTRA} contains kanji {kanji} which is already defined, skipping')
             continue
         filtered[kanji] = map_kanji(value)
 
+    extra = len(filtered) - total
+    print(f'processed {total} kanji from kanjiapi and {extra} extra kanji')
+
     with open(TARGET, 'wb') as file:
         cbor2.dump(filtered, file)
     # json size is about x2 of cbor
-    # with open('data/kanjiapi_full.json', 'w') as file:
+    # with open('data/kanjiapi_full-converted.json', 'w') as file:
     #     json.dump(filtered, file)
 
 
