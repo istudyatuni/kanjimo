@@ -42,16 +42,23 @@ def map_kanji(kanji: Kanji) -> Kanji:
     return res
 
 
-def main():
+def check_files() -> bool:
     if not Path(SOURCE).exists():
         print(f'{SOURCE} not exists, searching .zip file')
         if not Path(SOURCE_ZIP).exists():
             print(f'{SOURCE_ZIP} not exists')
-            return
+            return True
 
         print(f'extracting {SOURCE_ZIP}')
         with zipfile.ZipFile(SOURCE_ZIP) as file:
             file.extract(JSON_FILE, path=DIR)
+
+    return False
+
+
+def main():
+    if check_files():
+        return
 
     with open(SOURCE) as file:
         content: KanjiDict = json.load(file)['kanjis']
