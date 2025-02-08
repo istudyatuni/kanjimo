@@ -1,7 +1,8 @@
 *.cbor
 *.zip
-data/*.json
+data/*
 !data/extra.json
+!data/data.lock.json
 /bundle
 
 *~
