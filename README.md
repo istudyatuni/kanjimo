@@ -5,7 +5,7 @@ This is a small typst package that creates charts with selected kanji for practi
 #### Usage
 
 ```typ
-#import "@local/kanji-practice:0.1.0": practice, set-font
+#import "@preview/kanji-practice:0.1.0": practice, set-font
 
 #set page(margin: (x: 5em, y: 2em))
 // Change fonts for info text
@@ -22,7 +22,7 @@ This is a small typst package that creates charts with selected kanji for practi
 
 Each selected kanji will look like:
 
-![](docs/typst-screenshot.png)
+![Kanji meaning, reading, strokes order and table for practicing (分)](docs/typst-screenshot.png)
 
 ## Extra requirements
 
