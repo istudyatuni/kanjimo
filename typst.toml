@@ -1,8 +1,8 @@
 [package]
-name = "kanji-practice"
+name = "kanjimo"
 version = "0.1.0"
 description = "Create charts with selected kanji for practicing"
-repository = "https://github.com/istudyatuni/kanji-practice"
+repository = "https://github.com/istudyatuni/kanjimo"
 authors = ["Ilia <@istudyatuni>"]
 license = "MIT"
 keywords = ["kanji"]

@@ -2,7 +2,7 @@
 @default:
     just --list
 
-install path="$HOME/.local/share/typst/packages/local" pkg="kanji-practice/0.1.0": test bundle
+install path="$HOME/.local/share/typst/packages/local" pkg="kanjimo/0.1.0": test bundle
     rm -rf "{{ join(path, pkg) }}"
     mkdir -p "{{ parent_directory(join(path, pkg)) }}"
     mv bundle "{{ join(path, pkg) }}"
@@ -21,7 +21,7 @@ bundle:
     cp data/kanjiapi_full.cbor bundle/data
     cp lib.typ src.typ typst.toml LICENSE README.md bundle
 
-publish repo version: (install join(repo, "packages/preview") "kanji-practice/" + version)
+publish repo version: (install join(repo, "packages/preview") "kanjimo/" + version)
 
 convert-kanji:
     python3 convert.py

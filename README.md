@@ -5,7 +5,7 @@ This is a small typst package that creates charts with selected kanji for practi
 #### Usage
 
 ```typ
-#import "@preview/kanji-practice:0.1.0": practice, set-font
+#import "@preview/kanjimo:0.1.0": practice, set-font
 
 #set page(margin: (x: 5em, y: 2em))
 // Change fonts for info text
@@ -32,7 +32,7 @@ Fonts (can be changed):
     - Some distributions, like [Fedora](https://fedoraproject.org/wiki/KanjiStrokeOrders_fonts), packages it
 - [Kiwi Maru](https://fonts.google.com/specimen/Kiwi+Maru)
 
-You can also download first font from [fonts](https://github.com/istudyatuni/kanji-practice/tree/master/fonts)
+You can also download first font from [fonts](https://github.com/istudyatuni/kanjimo/tree/master/fonts)
 
 ## Install package locally
 
